@@ -23,30 +23,6 @@ print(f"Mean id2: {result}")
 
 # eighty_or_more(df)
 
-'''
-records = []
-with open(file_path, 'r') as file:
-    csv_reader = csv.DictReader(file)
-    for row in csv_reader:
-        records.append(row)
-
-total = sum(float(record['Grade']) for record in records)
-average = total / len(records)
-
-print(f"Average Grade: {average}")
-print("--------------------")
-
-filtered_records = [record for record in records if float(record['Grade']) >= 80.0]
-
-print("Student Report")
-
-print("--------------")
-for record in filtered_records:
-    print(f"Name: {record['Name']}")
-    print(f"Grade: {record['Grade']}")
-    print("--------------------")
-'''
-
 ## Exercise 2 ----------------------------------------------------------------------------
 # Merel
 def mandelbrot(c, max_iteraties):
@@ -57,3 +33,51 @@ def mandelbrot(c, max_iteraties):
         if abs(a) > 2: 
             div_inf = True
     return div_inf, div_ind
+
+
+## Excercise 3 ----------------------------------------------------------------------------------
+# Luce
+
+import networkx as nx # werken met netwerken (knooppunten en verbindingen)
+import matplotlib.pyplot as plt
+import random  # nodig voor de gewogen willekeurige keuze
+
+def maak_ster_graph(k: int) -> nx.DiGraph: # de "int" is een hint en de nx.DiGraph is ook een hint, deze laat weten dat de ooutput van de functie uiteindelijk een digraph teruggeeft
+    G = nx.DiGraph() # maakt een leeg , met richting netwerk aan (denk aan een pijlt; van 0 naar 1 is niet gelijk van 1 naar 0)
+    for i in range(1, k+1): # loop over alle nodes die we rond de hub willen zetten, begin bij 1 omdat 0 al de hub is
+        G.add_edge(0, i) # voeg link toe van de hub (node 0) naar node i 
+    return G # geef volledige graph terug (nodes (knooppunten) en edges (verbindingen, lijntjes tussen de nodes))
+
+def kies_gewogen_pagina_s(G: nx.DiGraph, aantal: int) -> list[int]:  # deze functie kiest 'aantal' bestaande pagina's uit G, waarbij pagina's met meer links een grotere kans hebben om gekozen te worden
+    kandidaten = list(G.nodes()) # alle bestaande pagina's bijv [0, 1, 2, 3]
+    gewichten = [G.degree(n) for n in kandidaten] # graad van elke pagina, bijv [3, 1, 2]
+
+    gekozen = [] # hierin worden de uiteindelijke keuzes verzameld
+
+    for _ in range(aantal): # herhaal dit 'aantal' keer (bijv M keer)
+
+        keuze = random.choices(kandidaten, weights=gewichten, k=1)[0]
+# random.choices() kiest 1 item uit 'kandidaten', waarbij de kans op elk item evenredig is aan het bijbehorende getal in 'gewichten'.
+# net als de p_i = d_i / som(d_j) het geeft een lijst van 1 item terug, daarom de [0] erachter om        
+# dat ene item eruit te pakken.
+
+        gekozen.append(keuze) # bewaar deze keuze in de lijst gekozen
+
+# haal de gekozen pagina uit de pool (trekken zonder terugleggen)
+
+        index = kandidaten.index(keuze) # zoekt op welke index de gekozen pagina staat
+        kandidaten.pop(index) # pop haalt item op die index weg
+        gewichten.pop(index)
+    return gekozen 
+
+def voeg_nieuwe_pagina_toe(G: nx.DiGraph, nieuwe_pagina: int, M: int) -> nx.DiGraph: # deze functie voegt nieuwe pagina toe aan G die linkt M bestaande pagina's (gekozen via kies gewogen paginas)
+    doelen = kies_gewogen_pagina_s(G, M) # bijv [1, 3]
+    for doel in doelen:
+        G.add_edge(nieuwe_pagina, doel) # link van de nieuwe pagian naar elk doel
+    return G
+
+# kleine test
+G = maak_ster_graph(5)   # begin met de stergraaf (stergraaf heeft 1 centrale nod, de hube) (6 pagina's: 0 t/m 5)
+G = voeg_nieuwe_pagina_toe(G, nieuwe_pagina=6, M=2)  # voeg pagina 6 toe, met 2 links
+
+print("Edges:", list(G.edges()))
