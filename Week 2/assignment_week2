@@ -1,8 +1,14 @@
 import pandas as pd
 
-data = input('Enter the path to the CSV file: ')
-df = pd.read_csv(data)
+
 # hoi
+def import_data(data): 
+    data = input('Enter the path to the CSV file: ')
+    df = pd.read_csv(data)
+    print(df.head(5))
+
+
+'''
 records = []
 with open(file_path, 'r') as file:
     csv_reader = csv.DictReader(file)
@@ -24,3 +30,4 @@ for record in filtered_records:
     print(f"Name: {record['Name']}")
     print(f"Grade: {record['Grade']}")
     print("--------------------")
+'''
