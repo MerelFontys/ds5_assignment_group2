@@ -7,6 +7,10 @@ def import_data(data):
     df = pd.read_csv(data)
     return df.head(5)
 
+def mean_grade(data):
+    return data['id2'].mean()
+
+
 
 '''
 records = []
