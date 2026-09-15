@@ -1,5 +1,7 @@
 import pandas as pd
 from pathlib import Path
+import numpy as np
+import matplotlib.pyplot as plt
 
 ## Exercise 1 ----------------------------------------------------------------------------
 # Luce & Merel
@@ -10,7 +12,7 @@ df = pd.read_csv(file_path) # We gebruiken een ander bestand en nemen kolom1 als
 
 # Merel
 def mean_grade(data): # Functie die het gemiddelde van de cijfers berekend
-    return data['id2'].mean()
+    return data['id2'].mean() # Bereken het gemiddelde van die kolom met de cijfers
 
 result = mean_grade(df)
 print(f"Mean id2: {result}")
@@ -49,11 +51,35 @@ for record in filtered_records:
 
 ## Exercise 2 ----------------------------------------------------------------------------
 # Merel
-def mandelbrot(c, max_iteraties):
-    div_inf = False
-    a = 0
-    for div_ind in range(max_iteraties):
-        a = (a**2) + c
-        if abs(a) > 2: 
-            div_inf = True
-    return div_inf, div_ind
+def diversion_index(c: complex, max_iteraties: int) -> int: # input: complex getal en integer, output: integer
+    a = 0 # begin met a op 0
+    for div_ind in range(max_iteraties): # ga alle diversion indexen af tot de 100 iteraties
+        a = (a**2) + c # geef steeds a de nieuwe waarde zolang je de indexen afgaat
+        if abs(a) > 2: # zodra de absolute waarde van a groter is dan twee ...
+            break # ... dan stopt het proces, omdat je dan al weet dat het naar oneindig gaat
+        if div_ind == (max_iteraties-1): # als op het einde dat nog steeds niet zo is...
+            div_ind = 0 # ...reset je de diversion index naar 0
+    return div_ind # geef dan aan op welke index je hier achter komt, bij 0 gaat hij dan dus niet naar oneindig
+
+# c = complex(-0.5, 0.7) # test waarde c
+# print(mandelbrot(c, 100)) # test of de functie het doet
+
+def draw_mandel(width_square: int) -> np.ndarray: # input: integer, output: numpy array, maakt niet uit welke dimensies
+    image = np.zeros((width_square, width_square)) # maak eerst een lege image aan
+    for py in range(width_square): # ga elke pixel af in de y-as
+        for px in range(width_square): # ga elke pixel af in de x-as
+            x = -1.5 + (px / width_square) * (0.5 - (-1.5)) # de pixelpositie omzetten naar een reële waarde binnen het bereik
+            y = -1 + (py / width_square) * (1 - (-1)) # de pixelpositie omzetten naar een imaginaire waarde binnen het bereik
+            c = complex(x, y) # maak hier een complex getal van: c = x + yi
+            
+            index = diversion_index(c,100) # bereken de diversion index voor dit getal
+            image[py, px] = index # geef de waarde een kleur
+    return image 
+plot_mand = draw_mandel(200) # maak een mandelbrot afbeelding van 200x200
+
+plt.imshow(plot_mand, extent=[-1.5, 0.5, -1, 1]) # geeft de assen de juiste waardes
+plt.colorbar(label='Diverging index')
+plt.title('Image Mandelbrot set')
+plt.xlabel('Reële deel van c')
+plt.ylabel('Imaginaire deel van c')
+plt.show()
