@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 
+## Exercise 1 ----------------------------------------------------------------------------
 # Luce & Merel
 script_dir = Path(__file__).parent # Pakt de folder (parent) waar het huidige bestand zich in bevindt
 file_path = script_dir / 'squirrel_edges.csv' # Pakt het csv bestand in die folder met deze naam
@@ -38,3 +39,9 @@ for record in filtered_records:
     print(f"Grade: {record['Grade']}")
     print("--------------------")
 '''
+
+## Exercise 2 ----------------------------------------------------------------------------
+def mandelbrot(c, max_iteraties):
+    a = 0
+    for n in range(max_iteraties):
+        a = (a**2) + c
