@@ -5,7 +5,7 @@ import pandas as pd
 def import_data(data): 
     data = input('Enter the path to the CSV file: ')
     df = pd.read_csv(data)
-    print(df.head(5))
+    return df.head(5)
 
 
 '''
