@@ -1,6 +1,7 @@
 import pandas as pd
 
-df = pd.read_csv(r"squirrel_edges.csv")
+data = input('Enter the path to the CSV file: ')
+df = pd.read_csv(data)
 
 records = []
 with open(file_path, 'r') as file:
