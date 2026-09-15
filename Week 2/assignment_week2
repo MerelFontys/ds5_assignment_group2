@@ -1,4 +1,7 @@
-file_path = input("Enter the path to the CSV file: ")
+import pandas as pd
+
+df = pd.read_csv(r"squirrel_edges.csv")
+
 records = []
 with open(file_path, 'r') as file:
     csv_reader = csv.DictReader(file)
