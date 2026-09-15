@@ -62,7 +62,6 @@ plt.show()
 
 ## Excercise 3 ----------------------------------------------------------------------------------
 # Luce
-
 import networkx as nx # werken met netwerken (knooppunten en verbindingen)
 import matplotlib.pyplot as plt
 import random  # nodig voor de gewogen willekeurige keuze
