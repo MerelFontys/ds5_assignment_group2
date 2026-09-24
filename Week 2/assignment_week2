@@ -18,12 +18,12 @@ result = mean_grade(df)
 print(f"Mean id2: {result}")
 
 # Luce
-def eighty_or_more(data): 
-    filtered = data[data['id2'] >= 80] # pak alleen alle rijen waar dat de id2 meer of gelijk is aan 80
-    for _, row in filtered.iterrows():# voor elke rij in gefilterd print dit:
-        print(f'student id: {row['id1']}, grade: {row['id2']}')
+# def eighty_or_more(data): 
+    # filtered = data[data['id2'] >= 80] # pak alleen alle rijen waar dat de id2 meer of gelijk is aan 80
+    # for _, row in filtered.iterrows():# voor elke rij in gefilterd print dit:
+        # print(f'student id: {row['id1']}, grade: {row['id2']}')
 
-eighty_or_more(df)
+# eighty_or_more(df)
 
 ## Exercise 2 ----------------------------------------------------------------------------
 # Merel
