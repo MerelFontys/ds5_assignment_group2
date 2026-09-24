@@ -1,0 +1,67 @@
+# ---- opgave 1 ---- 
+# Luce
+import random
+
+def totaal_hand(hand):
+    totaal = sum(hand)
+    aantal_azen = hand.count(11)
+    while totaal > 21 and aantal_azen >= 1:
+        totaal -= 10
+        aantal_azen -= 1
+    return totaal
+
+boer = 10 
+koningin = 10 
+koning = 10
+
+aas = 11 # doe gewoon -10 bij het tellen als het boven 21 uitkomt anders
+
+kaarten = [2, 3, 4, 5, 6, 7, 8, 9, 10, boer, koningin, koning, aas] 
+
+deck = kaarten * 4
+
+random.shuffle(deck) # schudt het deck randomized 
+
+# deck.pop() geeft een kaart uit het deck en zorgt dat hij dan ook uit het deck is gehaald 
+
+speler = [deck.pop(), deck.pop()]
+dealer = [deck.pop(), deck.pop()]
+
+print(f'jouw kaarten: {speler}, je hebt nu intotaal: {totaal_hand(speler)}')
+print(f'kaarten van de dealer: {dealer[0]}, ?')
+
+aan_de_beurt = True
+
+dealers_beurt = True
+
+while aan_de_beurt and totaal_hand(speler) < 21: 
+    keuze = input('Hit? Typ ja of nee. ')
+    if keuze == "ja" or keuze == "Ja":
+        kaart = deck.pop()
+        print(f'Je kaart is: {kaart}')
+        speler.append(kaart)
+        print(f'Je totaal is nu {totaal_hand(speler)}')
+        if totaal_hand(speler) > 21:
+            print('Busted...')
+    if keuze == "nee" or keuze == "Nee":
+        aan_de_beurt = False
+if totaal_hand(speler) <= 21:
+    print(f'Je hebt intotaal {totaal_hand(speler)}')
+    print(f'Dealer heeft: {dealer}, dus intotaal: {totaal_hand(dealer)}')
+    while dealers_beurt and totaal_hand(dealer) < 17:
+        dealer_kaart = deck.pop()
+        dealer.append(dealer_kaart)
+        print(f'De nieuwe kaart van dealer is {dealer_kaart}, intotaal heeft hij nu {totaal_hand(dealer)}')
+    if totaal_hand(dealer) > 21:
+        print(f'Dealer heeft nu {totaal_hand(dealer)}, dealer is busted')
+
+if totaal_hand(speler) > 21:
+    print()
+elif totaal_hand(dealer) > 21 and totaal_hand(speler) <= 21:
+    print('Jij wint!')
+elif totaal_hand(dealer) < totaal_hand(speler):
+    print('Jij wint!')
+elif totaal_hand(dealer) == totaal_hand(speler):
+    print('Push')
+elif totaal_hand(dealer) > totaal_hand(speler):
+    print('Dealer wint...')
