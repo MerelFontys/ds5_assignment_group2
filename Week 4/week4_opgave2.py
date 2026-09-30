@@ -1,3 +1,5 @@
+# door merel
+
 import random
 
 def print_bord(bord):
